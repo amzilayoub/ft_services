@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.11
 COPY ./script/install.sh .
 RUN sh install.sh
 COPY ./srcs/nginx.conf /etc/nginx/

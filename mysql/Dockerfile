@@ -10,9 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM alpine
-COPY ./script/install.sh .
+FROM alpine:3.11
+COPY ./script/ .
 RUN sh install.sh
-COPY ./srcs/nginx.conf /etc/nginx/
-# RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-# CMD service nginx start
+# CMD sh start.sh
