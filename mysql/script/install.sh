@@ -1,11 +1,11 @@
-#!/bin/sh
+# #!/bin/sh
 
-apk update
-apk upgrade
-apk add openrc --no-cache
+apk --no-cache update
+apk --no-cache add openrc
+apk --no-cache add mariadb mariadb-common mariadb-client
+
 mkdir /run/openrc
 touch /run/openrc/softlevel
 rc-status
-apk add mysql mysql-client
-/etc/init.d/mariadb setup
-service mariadb start
+
+mysql_install_db --user=mysql --datadir=/var/lib/mysql

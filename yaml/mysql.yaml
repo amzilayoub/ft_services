@@ -5,11 +5,13 @@ metadata:
   labels:
     app: mysql
 spec:
-  ports:
-    - port: 3306
   selector:
     app: mysql
-  type: LoadBalancer
+  ports:
+  - port: 3306
+    targetPort: 3306
+  type: ClusterIP
+  clusterIP: 10.96.0.3
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -50,7 +52,7 @@ spec:
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
-          mountPath: /var/www/html
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
