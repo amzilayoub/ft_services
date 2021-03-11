@@ -1,8 +1,7 @@
 FROM alpine:3.11
 COPY ./script/install.sh .
 RUN sh install.sh
-COPY ./srcs/nginx.conf /etc/nginx/
+COPY ./srcs/default.conf /etc/nginx/conf.d/default.conf
 COPY ./script/start.sh .
 COPY ./srcs/wp-config.php /www/
-# RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 CMD sh start.sh

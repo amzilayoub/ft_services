@@ -7,24 +7,11 @@ metadata:
 spec:
   ports:
     - name: wordpress
-      port: 80          # - port exposed internally in the cluster
-      targetPort: 80    # - the container port to send requests to
+      port: 5050          # - port exposed internally in the cluster
+      targetPort: 5050    # - the container port to send requests to
   selector:
     app: wordpress
   type: LoadBalancer
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wp-pv-claim
-  labels:
-    app: wordpress
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,12 +35,5 @@ spec:
         name: wordpress
         imagePullPolicy: Never
         ports:
-        - containerPort: 80
+        - containerPort: 5050
           name: wordpress
-        volumeMounts:
-        - name: wordpress-persistent-storage
-          mountPath: /var/www/html
-      volumes:
-      - name: wordpress-persistent-storage
-        persistentVolumeClaim:
-          claimName: wp-pv-claim
