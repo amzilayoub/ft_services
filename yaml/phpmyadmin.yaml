@@ -1,41 +1,41 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress
+  name: pma
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
   labels:
-    app: wordpress
+    app: pma
 spec:
   ports:
-    - name: wordpress
-      port: 5050          # - port exposed internally in the cluster
-      targetPort: 5050    # - the container port to send requests to
+    - name: pma
+      port: 5000          # - port exposed internally in the cluster
+      targetPort: 5000    # - the container port to send requests to
   selector:
-    app: wordpress
+    app: pma
   type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wordpress
+  name: pma
   labels:
-    app: wordpress
+    app: pma
 spec:
   selector:
     matchLabels:
-      app: wordpress
+      app: pma
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: wordpress
+        app: pma
     spec:
       containers:
-      - image: wordpress
-        name: wordpress
+      - image: pma
+        name: pma
         imagePullPolicy: Never
         ports:
-        - containerPort: 5050
-          name: wordpress
+        - containerPort: 5000
+          name: pma

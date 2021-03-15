@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+  labels:
+    app: nginx
+spec:
+  ports:
+    - name: http
+      port: 80          # - port exposed internally in the cluster
+      targetPort: 80    # - the container port to send requests to
+    - name: https
+      port: 443          # - port exposed internally in the cluster
+      targetPort: 443    # - the container port to send requests to
+    - name: ssh
+      port: 22          # - port exposed internally in the cluster
+      targetPort: 22    # - the container port to send requests to
+  selector:
+    app: nginx
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 22

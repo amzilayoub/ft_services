@@ -1,7 +1,6 @@
-FROM alpine
-COPY ./script/install.sh .
+FROM alpine:3.11
+COPY ./script/ .
 RUN sh install.sh
-COPY ./srcs/nginx.conf /etc/nginx/
-COPY ./script/start.sh .
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY ./srcs/default.conf /etc/nginx/conf.d/default.conf
+COPY ./srcs/config.inc.php /www/config.inc.php
 CMD sh start.sh

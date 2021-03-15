@@ -27,7 +27,7 @@ rm latest.tar.gz;
 mv wordpress/* .
 rm -rf wordpress
 
-chown -R www:www /www/;
+chown -R www:www /www/
 mkdir /run/openrc
 touch /run/openrc/softlevel
 rc-status

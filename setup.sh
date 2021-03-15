@@ -26,3 +26,4 @@ kubectl apply -f yaml/metallb.yaml
 # Deployment yaml file
 kubectl apply -f yaml/mysql.yaml
 kubectl apply -f yaml/wordpress.yaml
+docker build -t pma phpmyadmin
