@@ -14,19 +14,19 @@ spec:
   selector:
     app: grafana
   type: LoadBalancer
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: grafana-pv-claim
-  labels:
-    app: grafana
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: grafana-pv-claim
+#   labels:
+#     app: grafana
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 2Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,10 +52,10 @@ spec:
         ports:
         - containerPort: 3000
           name: grafana
-        volumeMounts:
-        - name: grafana-persistent-storage
-          mountPath: /
-      volumes:
-      - name: grafana-persistent-storage
-        persistentVolumeClaim:
-          claimName: grafana-pv-claim
+      #   volumeMounts:
+      #   - name: grafana-persistent-storage
+      #     mountPath: /grafana-7.4.5/data/
+      # volumes:
+      # - name: grafana-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: grafana-pv-claim
