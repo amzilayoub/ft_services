@@ -37,6 +37,19 @@ spec:
     requests:
       storage: 2Gi
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ftps-pv-claim
+  labels:
+    app: ftps
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -67,3 +80,10 @@ spec:
           name: ftps-2
         - containerPort: 4243
           name: ftps-3
+        volumeMounts:
+        - name: ftps-persistent-storage
+          mountPath: /
+      volumes:
+      - name: ftps-persistent-storage
+        persistentVolumeClaim:
+          claimName: ftps-pv-claim

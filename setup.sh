@@ -17,11 +17,13 @@ sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" ./nginx/srcs/default_.conf > ./nginx/srcs/def
 sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" ./ftps/srcs/vsftpd_.conf > ./ftps/srcs/vsftpd.conf
 
 # Building images
-docker build -t nginx nginx/
-docker build -t wordpress wordpress/
-docker build -t mysql mysql/
 docker build -t ftps ftps/
+docker build -t grafana grafana/
+docker build -t influxdb influxdb/
+docker build -t mysql mysql/
+docker build -t nginx nginx/
 docker build -t pma phpmyadmin/
+docker build -t wordpress wordpress/
 
 # LoadBalancer (Metallb) config file
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
@@ -32,8 +34,10 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 kubectl apply -f yaml/metallb.yaml
 
 # Deployment yaml file
-kubectl apply -f yaml/nginx.yaml
-kubectl apply -f yaml/mysql.yaml
-kubectl apply -f yaml/wordpress.yaml
-kubectl apply -f yaml/phpmyadmin.yaml
 kubectl apply -f yaml/ftps.yaml
+kubectl apply -f yaml/grafana.yaml
+kubectl apply -f yaml/influxdb.yaml
+kubectl apply -f yaml/mysql.yaml
+kubectl apply -f yaml/nginx.yaml
+kubectl apply -f yaml/phpmyadmin.yaml
+kubectl apply -f yaml/wordpress.yaml
