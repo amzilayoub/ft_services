@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - name: wordpress
+      port: 5050          # - port exposed internally in the cluster
+      targetPort: 5050    # - the container port to send requests to
+  selector:
+    app: wordpress
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - image: wordpress
+        name: wordpress
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5050
+          name: wordpress
+        livenessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          exec:
+            command: ["sh", "health.sh"]

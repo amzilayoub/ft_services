@@ -1,2 +1,0 @@
-Persistent volume for some container
-make sure to create data folder inside grafana folder before copy the db
